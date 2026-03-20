@@ -1,6 +1,4 @@
 #!/bin/bash
-set -o pipefail
-
 #SBATCH -A aqu2_lab_gpu
 #SBATCH -J eval_unified
 #SBATCH -p gpu
@@ -14,6 +12,8 @@ set -o pipefail
 #SBATCH --output=logs/eval_unified-%J.out
 #SBATCH --mail-type=fail,end
 #SBATCH --mail-user=shilligo@uci.edu
+
+set -o pipefail
 
 # ================================================================
 # Unified evaluation: run all 6 metrics on PaD-TS and Diffusion-TS

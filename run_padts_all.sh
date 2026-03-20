@@ -1,6 +1,4 @@
 #!/bin/bash
-set -o pipefail
-
 #SBATCH -A aqu2_lab_gpu
 #SBATCH -J padts_all
 #SBATCH -p gpu
@@ -14,6 +12,8 @@ set -o pipefail
 #SBATCH --output=logs/padts_all-%J.out
 #SBATCH --mail-type=fail,end
 #SBATCH --mail-user=shilligo@uci.edu
+
+set -o pipefail
 
 # ================================================================
 # SLURM submission script for PaD-TS training (all datasets)
