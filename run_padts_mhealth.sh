@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o pipefail
 
 #SBATCH -A aqu2_lab_gpu
 #SBATCH -J padts_mhealth
