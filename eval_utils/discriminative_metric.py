@@ -24,6 +24,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import tensorflow as tf
 import tensorflow._api.v2.compat.v1 as tf1
+tf.compat.v1.disable_eager_execution()
 import numpy as np
 from sklearn.metrics import accuracy_score
 from metric_utils import train_test_divide, extract_time
