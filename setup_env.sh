@@ -2,7 +2,7 @@
 # setup_env.sh — Create the "padts" conda environment on UCI HPC3
 # Usage: chmod +x setup_env.sh && ./setup_env.sh
 
-set -euo pipefail
+set -eo pipefail
 
 module purge
 module load anaconda/2024.06
@@ -21,6 +21,15 @@ conda create -n "${ENV_NAME}" python=3.8 -y
 
 echo "Activating '${ENV_NAME}'..."
 conda activate "${ENV_NAME}"
+
+# Verify activation
+ACTIVE_ENV=$(conda info --envs | grep '*' | awk '{print $1}')
+if [ "$ACTIVE_ENV" != "$ENV_NAME" ]; then
+    echo "ERROR: conda activate failed. Active env is '$ACTIVE_ENV', expected '$ENV_NAME'."
+    echo "Try running manually: conda activate $ENV_NAME && pip install ..."
+    exit 1
+fi
+echo "Confirmed active environment: $ACTIVE_ENV"
 
 # PyTorch with CUDA 11.8 support
 echo "Installing PyTorch (CUDA 11.8)..."
