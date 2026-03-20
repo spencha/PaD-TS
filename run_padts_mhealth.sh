@@ -30,7 +30,7 @@ set -o pipefail
 # Load modules and activate conda environment
 module purge
 module load anaconda/2024.06
-source "$(conda info --base)/etc/profile.d/conda.sh"
+eval "$(conda shell.bash hook)"
 conda activate padts
 
 # Change to project directory

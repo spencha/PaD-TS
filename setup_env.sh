@@ -6,7 +6,7 @@ set -eo pipefail
 
 module purge
 module load anaconda/2024.06
-source "$(conda info --base)/etc/profile.d/conda.sh"
+eval "$(conda shell.bash hook)"
 
 ENV_NAME="padts"
 
