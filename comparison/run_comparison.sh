@@ -140,15 +140,20 @@ if [ -n "$MHEALTH_REAL" ]; then
             2>&1 | tee results/mhealth/viz_log.txt
         [ $? -ne 0 ] && OVERALL_EXIT=1
 
-        echo ""
-        echo ">>> Running heterogeneity analysis for MHEALTH..."
-        python analyze_heterogeneity.py \
-            --real "$MHEALTH_REAL" \
-            --diffts "$MHEALTH_DIFFTS" --diffts_range zero1 \
-            --padts "$MHEALTH_PADTS" --padts_range neg1to1 \
-            --outdir results/mhealth \
-            2>&1 | tee results/mhealth/heterogeneity_log.txt
-        [ $? -ne 0 ] && OVERALL_EXIT=1
+        SUBJ_LABELS="$HOME/PaD-TS/dataset/mhealth_window_subjects.npy"
+        if [ -f "$SUBJ_LABELS" ]; then
+            echo ""
+            echo ">>> Running subject-level heterogeneity analysis for MHEALTH..."
+            HETERO_ARGS="--real $MHEALTH_REAL --subject_labels $SUBJ_LABELS --outdir results/mhealth"
+            [ -n "$MHEALTH_DIFFTS" ] && HETERO_ARGS="$HETERO_ARGS --diffts $MHEALTH_DIFFTS --diffts_range zero1"
+            [ -n "$MHEALTH_PADTS" ] && HETERO_ARGS="$HETERO_ARGS --padts $MHEALTH_PADTS --padts_range neg1to1"
+            python analyze_heterogeneity.py $HETERO_ARGS \
+                2>&1 | tee results/mhealth/heterogeneity_log.txt
+            [ $? -ne 0 ] && OVERALL_EXIT=1
+        else
+            echo "  SKIP heterogeneity: $SUBJ_LABELS not found."
+            echo "  Run: python preprocess_mhealth.py --input_dir /path/to/MHEALTHDATASET"
+        fi
     fi
 else
     echo "  SKIP: No ground truth found for MHEALTH."
