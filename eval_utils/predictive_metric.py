@@ -18,7 +18,8 @@ Note: Use Post-hoc RNN to predict one-step ahead (last feature)
 
 # Necessary Packages
 import sys
-sys.path.append('/sciclone/home/yli102/diffusion_rebuild/improved_diffusion/eval_utils')
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import tensorflow as tf
 import tensorflow._api.v2.compat.v1 as tf1
