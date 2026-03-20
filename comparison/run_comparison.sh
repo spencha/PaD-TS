@@ -8,8 +8,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:1
 #SBATCH --time=06:00:00
-#SBATCH --error=../logs/compare_all-%J.err
-#SBATCH --output=../logs/compare_all-%J.out
+#SBATCH --error=logs/compare_all-%J.err
+#SBATCH --output=logs/compare_all-%J.out
 #SBATCH --mail-type=fail,end
 #SBATCH --mail-user=shilligo@uci.edu
 
