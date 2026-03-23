@@ -192,8 +192,18 @@ if __name__ == "__main__":
     print(f"{d_arg.name} VDS Score: {vds}")
 
     print("======FDDS Score======")
-    ori_ccd = cross_correlation_distribution(ori_t).unsqueeze(-1)
-    fake_ccd = cross_correlation_distribution(fake_t).unsqueeze(-1)
+    # Subsample for large datasets to avoid OOM on GPU
+    max_fdds_samples = 5000
+    if ori_t.shape[0] > max_fdds_samples:
+        idx = np.random.choice(ori_t.shape[0], max_fdds_samples, replace=False)
+        ori_fdds = ori_t[idx]
+        fake_fdds = fake_t[idx]
+        print(f"  Subsampled to {max_fdds_samples} for FDDS (original: {ori_t.shape[0]})")
+    else:
+        ori_fdds = ori_t
+        fake_fdds = fake_t
+    ori_ccd = cross_correlation_distribution(ori_fdds).unsqueeze(-1)
+    fake_ccd = cross_correlation_distribution(fake_fdds).unsqueeze(-1)
     fdds = BMMD_Naive(ori_ccd, fake_ccd, "rbf").mean()
     print(f"{d_arg.name} FDDS Score: {fdds}")
 
