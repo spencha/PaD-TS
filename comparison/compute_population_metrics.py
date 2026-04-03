@@ -41,6 +41,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Force CPU for PyTorch metrics (avoids libcublasLt.so.12 crash)
 
 # Add PaD-TS root to path for eval_utils imports
 PADTS_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
